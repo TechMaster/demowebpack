@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Page</title>
+</head>
+
+<body>
+  <div class="tab-pane fade" id="employeeTab" role="tabpanel" aria-labelledby="employeeTab-tab">
+    <div class="jobs-showcase-wrapper">
+      <div class="candidate-showcase table-responsive-lg">
+        {{if .apply}}
+        <table class="table table-bordered table-hover">
+          <thead>
+            <tr class="thead-light">
+              <th scope="col">Họ tên</th>
+              <th scope="col">Email</th>
+              <th scope="col">Điện thoại</th>
+              <th scope="col">Ngày ứng tuyển</th>
+              <th scope="col">CV</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{range .apply}}
+            <tr>
+              <td>{{.UserName}}</td>
+              <td>
+                <a href="mailto:{{.UserEmail}}">{{.UserEmail}}</a>
+              </td>
+              <td>
+                <a href="tel:{{.UserPhone}}">{{.UserPhone}}</a>
+              </td>
+              <td>14/09/2019</td>
+              <td><a href="{{.Cv}}" target="_blank">Xem CV</a></td>
+            </tr>
+            {{end}}
+          </tbody>
+        </table>
+        {{else}}
+        Chưa có ứng viên nộp CV
+        {{end}}
+      </div>
+    </div>
+  </div>
+  <!--Cực kỳ nhiều comment ngớ ngẩn-->
+  <script>
+    let foo = {{ Foo }}
+    var bar = {{ Bar }}
+    
+    function factorialize(num) {
+      if (num < 0)
+        return -1;
+      else if (num == 0)
+        return 1;
+      else {
+        return (num * factorialize(num - 1));
+      }
+    }
+    factorialize(5);
+  </script>
+</body>
+
+</html>

@@ -51,8 +51,9 @@ Nếu không cấu hình đúng sẽ gặp phải lỗi khi trong inline javascr
   factorialize(5);
 </script>
 ```
-
+Code chi tiết ở file [webpack.prod.js](webpack.prod.js)
 Cách xử lý là cấu hình `HtmlMinimizerPlugin` như sau:
+
 
 1. Bổ xung `ignoreCustomFragments: [ /{{.*}}/ ],` để bỏ qua `{{}}`
 2. Bật `minifyJS: true`

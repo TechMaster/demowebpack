@@ -1,0 +1,303 @@
+<header>
+	<!-- Menu -->
+	<div class="nav-bar">
+		<nav class="navbar navbar-expand-lg">
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01">
+				<i class="fas fa-bars" style="color: white"></i>
+			</button>
+			<div class="logo-brand">
+
+			</div>
+
+			<div class="user-nav mobile">
+				{{if not .Id}}
+				<i class="fas fa-user user-top-menu" data-toggle="modal" data-target="#modal-signin"
+					style="color: white"></i>
+				{{else}}
+				<div class="user-dropdown-avatar"
+					data-dropdown="dropdown-user-menu-mobile">
+					<img src="{{.Avatar}}"
+						onError="this.onerror=null;"
+						class="navbar-user-avatar-img">
+				</div>
+				<ul class="dropdown-menu" id="dropdown-user-menu-mobile" style="margin-right: 15px">
+					<li class="admin-page"><span>Trang quản trị</span></li>
+					<li class="teacher-page"><span>Trang giảng viên</span></li>
+					<li class="choose-active-order"><span>Kích hoạt đơn hàng</span></li>
+					<li class="choose-user-classes"><span>Lớp học của tôi</span></li>
+					<li class="choose-user-profile"><span>Hồ sơ cá nhân</span></li>
+					<li class="choose-sign-out"><span>Đăng xuất</span></li>
+				</ul>
+				{{end}}
+			</div>
+			<div class="btn mobile shopping-cart-mobile" {{if eq .CountCartItem 0}}style="display:none" {{end}}>
+				<a href="/gio-hang" style="color: white">
+					<div style="position: relative; line-height: 75px">
+						<i class="fas fa-shopping-cart"></i>
+						<span class="count-cart-item count-cart-item-mobile">{{.CountCartItem}}</span>
+					</div>
+				</a>
+			</div>
+			<div class="parent-menu desktop">
+				<ul class="list-menu">
+					{{range $i, $m := listMenu}}
+					
+					<li class="parent-menu-item" {{if .Sub}} onclick="ShowSubMenu(this)"
+						data-dropdown="submenu-dropdown-{{$i}}" {{else}} onclick="GoToSite(this)"
+						data-href="{{$m.Link}}" {{end}}>
+						<a {{if not $m.Sub}}href="{{$m.Link}}" {{end}} class="nav-padding">
+							<span>{{$m.Text}}{{if $m.Sub}}&ensp;<i class="fas fa-caret-down"></i>{{end}}</span>
+						</a>
+						{{if .Sub}}
+						<ul class="dropdown-menu" id="submenu-dropdown-{{$i}}">
+							{{range $m.Sub}}
+							<a href="{{.Link}}">
+								<li><span>{{.Text}}</span></li>
+							</a>
+							{{end}}
+						</ul>
+						{{end}}
+					</li>
+					
+					{{end}}
+					<li class="parent-menu-item">
+						<div style="position: relative;">
+							<a href="/gio-hang">
+								<i class="fas fa-shopping-cart shopping-cart-top-menu"></i>
+							</a>
+							<span class="badge badge-success count-cart-item">{{.CountCartItem}}</span>
+						</div>
+						{{if not .Id}}
+						<i class="fas fa-user user-top-menu" data-toggle="modal" data-target="#modal-signin"></i>
+						{{else}}
+						<div class="user-dropdown-avatar"
+							data-dropdown="dropdown-user-menu">
+							<img src="{{.Avatar}}"
+								onError="this.onerror=null;" alt="Avatar"
+								class="navbar-user-avatar-img">
+						</div>
+						<ul class="dropdown-menu" id="dropdown-user-menu">
+							<li class="admin-page"><span>Trang quản trị</span></li>
+							<li class="teacher-page"><span>Trang giảng viên</span></li>
+							<li class="choose-active-order"><span>Kích hoạt đơn hàng</span></li>
+							<li class="choose-user-classes"><span>Lớp học của tôi</span></li>
+							<li class="choose-user-profile"><span>Hồ sơ cá nhân</span></li>
+							<li class="choose-sign-out"><span>Đăng xuất</span></li>
+						</ul>
+						{{end}}
+					</li>
+				</ul>
+			</div>
+
+			<div class="modal fade" id="modal-signin" tabindex="-1" role="dialog">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<ul class="nav nav-tabs" role="tablist">
+							<li class="nav-item" style="flex: 1">
+								<a class="nav-link active" id="sign-in-tab" data-toggle="tab" href="#sign-in-div"
+									role="tab">Đăng nhập</a>
+							</li>
+							<li class="nav-item" style="flex: 1">
+								<a class="nav-link" id="sign-up-tab" data-toggle="tab" href="#sign-up-div"
+									role="tab">Đăng ký</a>
+							</li>
+						</ul>
+						<div class="tab-content">
+							<div class="tab-pane fade show active" id="sign-in-div" role="tabpanel">
+								<form>
+									<div class="modal-login-item">
+										<input type="text" placeholder="Email" id="sign-in-email" required>
+									</div>
+									<div class="modal-login-item">
+										<input type="password" placeholder="Password" id="sign-in-password" required>
+									</div>
+									<div class="modal-login-item-half">
+										<label style="display:none" class="checkbox-remember-me">Nhớ tài khoản
+											<input type="checkbox" id="sign-in-remember">
+											<span class="checkmark"></span>
+										</label>
+										<div style="cursor: pointer;" class="forgot-password-toggler">
+											<i class="fas fa-question-circle"></i> Quên mật khẩu</div>
+									</div>
+									<div style="margin-bottom: 2rem;">
+										<button type="button" class="btn btn-green btn-login-modal"
+											id="btn-sign-in">Đăng nhập</button>
+									</div>
+									<div class="text-center" style="margin-bottom: 1rem;">
+										Hoặc đăng nhập bằng
+									</div>
+									<div class="text-center">
+									
+									</div>
+								</form>
+							</div>
+							<div class="tab-pane fade show" id="sign-up-div" role="tabpanel">
+								<form>
+									<div class="modal-login-item">
+										<input type="text" placeholder="Họ tên" id="sign-up-fullname" required>
+									</div>
+									<div class="modal-login-item">
+										<input type="text" placeholder="Email" id="sign-up-email" required>
+									</div>
+									<div class="modal-login-item">
+										<input type="text" placeholder="Điện thoại" id="sign-up-phone" required>
+									</div>
+									<div class="modal-login-item">
+										<input type="password" placeholder="Mật khẩu" id="sign-up-password" required>
+									</div>
+									<div class="modal-login-item">
+										<input type="password" placeholder="Nhập lại mật khẩu"
+											id="sign-up-retype-password" required>
+									</div>
+									<div class="modal-login-item">
+										<button type="button" class="btn btn-green btn-login-modal"
+											id="btn-sign-up">Đăng ký</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="modal fade" id="forgot-password" tabindex="-1" role="dialog">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<form class="modal-login-form">
+							<div style="padding-top: 1px" class="modal-login-item text-center">
+								<h2>Quên mật khẩu</h2>
+							</div>
+							<div class="modal-login-item">
+								<input type="text" placeholder="Email" id="forgot-password-email" required>
+							</div>
+							<button type="button" class="btn btn-green btn-login-modal" id="btn-forgot-password">Gửi
+								mail trợ giúp</button>
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<div class="parent-menu mobile" id="mySidenav" style="overflow-y: auto">
+				<ul>
+					<li class="parent-menu-item">
+						<a href="/">
+							<span>Trang chủ</span>
+						</a>
+					</li>
+					{{range $i, $m := listMenu}}
+					
+					<li class="parent-menu-item" {{if .Sub}} onclick="ShowSubMenu(this)"
+						data-dropdown="submenu-dropdown-mobile-{{$i}}" {{end}}>
+						<a {{if not $m.Sub}}href="{{$m.Link}}" {{end}}>
+							<span>{{.Text}}&ensp;{{if $m.Sub}}<i class="fas fa-caret-down"></i>{{end}}</span>
+						</a>
+					</li>
+					{{if $m.Sub}}
+					<li class="parent-menu-item" style="height: auto; padding-top: 0; display: none;"
+						id="submenu-dropdown-mobile-{{$i}}" data-name="submenu-dropdown-mobile">
+						<div style="padding-left: 1.5rem">
+							{{range $m.Sub}}
+							<a href="{{.Link}}">
+								<div style="padding-bottom: 1.5rem;">
+									<span>{{.Text}}</span>
+								</div>
+							</a>
+							{{end}}
+						</div>
+					</li>
+					{{end}}
+				
+					{{end}}
+				</ul>
+			</div>
+		</nav>
+
+		<div class="blank_block" id="overlay">
+		</div>
+	</div>
+
+	<div class="modal fade" id="advisory-modal" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-banner">
+					
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">
+						<span class="modal__main-title">
+							Tư vấn khoá học
+						</span>
+						<span class="modal__sub-title">
+							Điền và gửi thông tin cá nhân để được tư vấn miễn phí về các chương trình học.
+						</span>						
+					</h5>
+				</div>
+				<div class="modal-body">
+					<div class="input__row">
+						<input type="text" placeholder="Họ tên" id="advisory-name" required>
+						<i class="fas fa-check-circle"></i>
+						<i class="fas fa-exclamation-circle"></i>
+						<small>Error message</small>
+					</div>
+					<div class="input__row">
+						<input type="email" placeholder="Email" id="advisory-email" required>
+						<i class="fas fa-check-circle"></i>
+						<i class="fas fa-exclamation-circle"></i>
+						<small>Error message</small>
+					</div><div class="input__row">
+						<input type="phone" placeholder="Số điện thoại" id="advisory-phone" required>
+						<i class="fas fa-check-circle"></i>
+						<i class="fas fa-exclamation-circle"></i>
+						<small>Error message</small>
+					</div><div class="input__row">
+						<textarea placeholder="Ghi chú" id="advisory-note"></textarea>
+						<i class="fas fa-check-circle"></i>
+						<i class="fas fa-exclamation-circle"></i>
+						<small>Error message</small>
+					</div>
+					<div style="text-align: right" class="advisory__btns">
+						<button type="button" class="btn btn-white" data-dismiss="modal">Huỷ</button>
+						<button type="button" class="btn btn-blue btn-submit-advisory" id="btn-submit-advisory">Gửi</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="required-info-update" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="required-info-body">
+					<i class="far fa-user-circle fa-3x required-info-icon"></i>
+					<div class="text-center" style="font-size: 1.1rem">Cập nhật profile cá nhân</div>
+					<div class="text-center" style="font-weight: 300">Vui lòng nhập số điện thoại để xác thực tài khoản của bạn</div>
+					<input id="required-info-input" class="form-control" type="text" placeholder="Số điện thoại">
+				</div>
+				<div class="required-info-footer text-right">
+					<button class="btn btn-success btn-sm required-info-btn">Cập nhật</button>
+				</div>
+			</div>
+		</div>
+	</div>
+ 	<script>
+		function ShowSubMenu(elem) {
+			let dropdown = $(elem).children('.dropdown-menu');
+			let trackMenu = $(elem).children('.track-menu');
+			let mobileDropdown = $(elem).next('.parent-menu-item');
+			$(dropdown).toggle();
+			$(trackMenu).toggle();
+			if ($(mobileDropdown).attr('data-name') !== undefined) {
+				$(mobileDropdown).toggle();
+			}
+		}
+		
+		/*----------------- Chuyển site -------------------*/
+		function GoToSite(li) {
+			window.location.replace($(li).data('href'))
+		}
+		/*--------------- Đăng nhập bên thứ 3 -----------------*/
+	</script>
+</header>
